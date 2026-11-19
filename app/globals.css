@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 48 33% 97%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 16 91% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 173 58% 39%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 40 20% 92%;
+  --muted-foreground: 222 20% 40%;
+  --accent: 42 96% 60%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 222 25% 88%;
+  --input: 222 25% 88%;
+  --ring: 16 91% 55%;
+  --radius: 1rem;
+  --ink: 222 47% 11%;
+  --paper: 48 33% 97%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-[hsl(var(--paper))] text-[hsl(var(--ink))];
+    font-feature-settings: 'ss01' on;
+  }
+  ::selection {
+    background: hsl(16 91% 55% / 0.9);
+    color: white;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), Georgia, serif;
+  }
+  .font-body {
+    font-family: var(--font-body), system-ui, sans-serif;
+  }
+  .font-hand {
+    font-family: var(--font-hand), cursive;
+  }
+}
+
+/* ---------- Doodle helpers ---------- */
+.doodle-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 30 2 60 7 T 120 7 T 198 6' fill='none' stroke='%23EA580C' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.35em;
+  padding-bottom: 0.15em;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+.animate-marquee-slow {
+  animation: marquee 44s linear infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-14px) rotate(var(--rot, 0deg)); }
+}
+.animate-float {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.animate-wiggle {
+  animation: wiggle 2.4s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+@keyframes tick {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+.animate-tick {
+  animation: tick 1.4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes dash-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: pop-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ---------- Tilt card (3D) ---------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+.tilt-inner {
+  transform-style: preserve-3d;
+  transform: translateZ(40px);
+}
+
+/* ---------- Paper texture ---------- */
+.paper-bg {
+  background-color: hsl(48 33% 97%);
+  background-image:
+    radial-gradient(hsl(222 47% 11% / 0.045) 1px, transparent 1px),
+    radial-gradient(hsl(16 91% 55% / 0.05) 1px, transparent 1px);
+  background-size: 26px 26px, 26px 26px;
+  background-position: 0 0, 13px 13px;
+}
+
+/* ---------- Noise ---------- */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: hsl(48 33% 94%); }
+::-webkit-scrollbar-thumb {
+  background: hsl(16 91% 55% / 0.7);
+  border-radius: 8px;
+  border: 2px solid hsl(48 33% 94%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-marquee-slow, .animate-float, .animate-wiggle, .animate-spin-slow, .animate-tick {
+    animation: none;
+  }
+  .reveal { opacity: 1; }
+}
